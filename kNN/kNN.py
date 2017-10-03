@@ -1,3 +1,4 @@
+import random
 import pandas as pd
 import sklearn.pipeline
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -29,11 +30,15 @@ parameters = dict(
 
 )
 
+random.seed()
+seed = random.randint(1, 100)
+
 for i in [(RobustScaler(), "RobustScaler"), (MinMaxScaler(), "MinMaxScaler")]:
 
     crime_data_scaled = i[0].fit_transform(crime_data)
     X_train, X_test, y_train, y_test = train_test_split(crime_data_scaled, crime_labels, 
-                                                    test_size=0.20)
+                                                        test_size=0.20,
+                                                        random_state=seed)
 
     knn_pipeline = sklearn.pipeline.Pipeline(steps)
     grid_search = GridSearchCV(knn_pipeline, param_grid=parameters, n_jobs=4)
