@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 
 
-df = pd.read_csv("crimesProcessed.csv", nrows=1000)
+df = pd.read_csv("crimes_processed.csv", nrows=1000)
 
 
 X_columns = [i for i in df.columns if i != "TYPE"]

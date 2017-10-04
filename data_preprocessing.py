@@ -48,6 +48,10 @@ for index, row in df.iterrows():
     block = ' '.join([i for i in hundredBlock if "X" not in i])
     df.set_value(index, "HUNDRED", hundred)
     df.set_value(index, "BLOCK", block)
+
+# We would like to combine the vehicle collisioin records into a single type since one of them only has ~300 values and the other ~40000
+
+df.loc[df.TYPE.str.contains("Vehicle Collision"),"TYPE"] = "Vehicle Collision"
     
 # These columns will not be used in this project
 df.drop(["HUNDRED_BLOCK", "MINUTE","YEAR", "MONTH", "X","Y"],axis=1, inplace=True)
