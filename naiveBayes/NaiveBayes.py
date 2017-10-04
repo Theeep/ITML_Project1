@@ -1,6 +1,7 @@
 import random
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import sklearn.pipeline
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
@@ -10,10 +11,11 @@ from sklearn.metrics import classification_report
 
 gnb = GaussianNB()
 # Reading csv
-data = pd.read_csv("crimesProcessed.csv")
+data = pd.read_csv("../crimes_processed.csv")
 target = data["TYPE"]
 # Numberizing data
-
+sns.countplot(x=data.TYPE)
+plt.show()
 neighbour = LabelEncoder()
 data["NEIGHBOURHOOD"] = neighbour.fit(
     data["NEIGHBOURHOOD"]).transform(data["NEIGHBOURHOOD"])
@@ -25,19 +27,16 @@ data["HUNDRED"] = hundred.fit(data["HUNDRED"]).transform(data["HUNDRED"])
 cols = [x for x in data.columns if x not in ["TYPE", "BLOCK"]]
 
 targetFitted = LabelEncoder().fit_transform(target)
-
 steps = [
     ("naiveBayes_classifier", gnb)
 ]
 
 parameters = dict(
     naiveBayes_classifier__priors=[
-        [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9,
-            1 / 9, 1 / 9],        # All types weighted equally
+        [1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8,
+            1 / 8],        # All types weighted equally
         # Majority class weighted heavier
-        [0.05, 0.05, 0.05, 0.05, 0.6, 0.05, 0.05, 0.05, 0.05],
-        # Minority classes weighted heavier and Majority classes weighted less
-        #[1 / 9, 1 / 18, 1 / 18, 1 / 18, 1 / 18, 1 / 9, 1 / 9,  3 / 9, 1 / 9],
+        [1 / 16, 1 / 8, 1 / 8, 1 / 8, 2 / 8, 1 / 16, 1 / 8, 1 / 8],
         None]
 )
 
@@ -54,7 +53,6 @@ grid_search.fit(X_train, y_train)
 train_prediction = grid_search.predict(X_train)
 test_prediction = grid_search.predict(X_test)
 
-# print(len(prediction), len(y_train))
 
 train_report = classification_report(y_train, train_prediction)
 test_report = classification_report(y_test, test_prediction)
@@ -64,14 +62,4 @@ print(grid_search.best_estimator_.get_params()["steps"])
 
 result_df = pd.DataFrame(grid_search.cv_results_)
 print(result_df)
-result_df.to_csv("Naive_Results.csv", encoding="utf-8", index=False)
-"""
-# Split data into training and test
-X_train, X_test, y_train, y_test = train_test_split(
-    data[X_col], targetFitted, test_size=0.2, random_state=seed)
-
-gnb.fit(X_train, y_train)
-gnb.predict(np.array(np.reshape(y_test, (-1, 1))))
-print("Score:", gnb.score(X_train, y_train))
-print(X_col)
-"""
+result_df.to_csv("naive_results.csv", encoding="utf-8", index=False)
