@@ -92,6 +92,6 @@ df = df.append(pd.DataFrame(dfToAppend, columns=dfColumns))
 
 # Here we drop records where the values aren't on a format that is consitent with the rest of the dataset
 
-df.drop(df.index[df.BLOCK.isnull()], inplace=True)
+df.drop(df.index[[354991]], inplace=True)
 
 df.to_csv("crimesProcessed.csv", encoding='utf-8', index=False)
