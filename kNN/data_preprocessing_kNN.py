@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("crimesProcessed.csv")
+df = pd.read_csv("crimes_processed.csv")
 neighbourhood_one_hot = pd.get_dummies(df["NEIGHBOURHOOD"])
 weekeday_one_hot = pd.get_dummies(df["WEEKDAY"])
 
@@ -10,4 +10,4 @@ df = df.join(weekeday_one_hot)
 
 print(len(df.columns))
 
-df.to_csv("crimesProcessedkNN.csv", encoding='utf-8', index=False)
+df.to_csv("crimes_processed_kNN.csv", encoding='utf-8', index=False)
