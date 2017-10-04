@@ -6,6 +6,15 @@ from calendar import weekday, day_name
 
 df = pd.read_csv("crime.csv")
 
+# One of the TYPE's in the dataset is significantly more common than others so to even out distibution we drop all of those with an even index
+typesWithLength = [(i,len(df[df.TYPE == i])) for i in df.TYPE.unique()]
+mostCommonType = max(typesWithLength, key=lambda x: x[1])[0]
+dropindexes = []
+for index, row in df[df.TYPE == mostCommonType].iterrows():
+    dropindexes.append(index)
+dropindexes = list(filter(lambda x : x % 2 != 0, dropindexes))
+df.drop(df.index[dropindexes], inplace=True)
+
 # Clean up the dataset by dropping rows where they have NaN values
 
 df.dropna(how='any',inplace=True)
@@ -79,5 +88,10 @@ for index, row in df[df.BLOCK.str.contains("/")].iterrows():
     else:
         dfToAppend[-1][dfColumns.index("HUNDRED")] = 0
 df = df.append(pd.DataFrame(dfToAppend, columns=dfColumns))
+
+
+# Here we drop records where the values aren't on a format that is consitent with the rest of the dataset
+
+df.drop(df.index[df.BLOCK.isnull()], inplace=True)
 
 df.to_csv("crimesProcessed.csv", encoding='utf-8', index=False)
