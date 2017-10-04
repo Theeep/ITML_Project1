@@ -98,4 +98,4 @@ df = df.append(pd.DataFrame(dfToAppend, columns=dfColumns))
 
 df.drop(df.index[[354991]], inplace=True)
 
-df.to_csv("crimesProcessed.csv", encoding='utf-8', index=False)
+df.to_csv("crimes_processed.csv", encoding='utf-8', index=False)

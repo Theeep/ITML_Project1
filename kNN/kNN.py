@@ -1,4 +1,6 @@
 import random
+import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas as pd
 import sklearn.pipeline
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -7,7 +9,12 @@ from sklearn.neighbors import KNeighborsClassifier, DistanceMetric
 from sklearn.metrics import classification_report
 from sklearn.feature_selection import SelectKBest, f_classif
 
-crime_data = pd.read_csv("crimesProcessedkNN.csv", nrows=150000)
+crime_data = pd.read_csv("crimes_processed_kNN.csv", nrows=2000)
+
+unique_types = crime_data.TYPE.unique()
+print(unique_types)
+sns.countplot(x=crime_data.TYPE, order=unique_types)
+plt.show()
 
 crime_labels = crime_data["TYPE"]
 crime_data = crime_data.drop("TYPE", axis=1)
@@ -33,12 +40,16 @@ parameters = dict(
 random.seed()
 seed = random.randint(1, 100)
 
-for i in [(RobustScaler(), "RobustScaler"), (MinMaxScaler(), "MinMaxScaler")]:
+for i in [(RobustScaler(), "robust_scaler")]:
 
     crime_data_scaled = i[0].fit_transform(crime_data)
     X_train, X_test, y_train, y_test = train_test_split(crime_data_scaled, crime_labels, 
                                                         test_size=0.20,
                                                         random_state=seed)
+
+    sns.countplot(x=y_train, order=unique_types)
+    plt.show()
+    break
 
     knn_pipeline = sklearn.pipeline.Pipeline(steps)
     grid_search = GridSearchCV(knn_pipeline, param_grid=parameters, n_jobs=4)
@@ -52,4 +63,4 @@ for i in [(RobustScaler(), "RobustScaler"), (MinMaxScaler(), "MinMaxScaler")]:
 
     result_df = pd.DataFrame(grid_search.cv_results_)
     print(result_df)
-    result_df.to_csv(i[1]+"Results.csv", encoding='utf-8', index=False)
+    result_df.to_csv(i[1]+"_results.csv", encoding='utf-8', index=False)
