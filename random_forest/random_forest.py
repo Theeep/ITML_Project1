@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 
 
-df = pd.read_csv("crimes_processed.csv", nrows=150000)
+df = pd.read_csv("crimes_processed.csv", nrows=5000)
 
 
 X_columns = [i for i in df.columns if i != "TYPE"]
@@ -46,7 +46,7 @@ cv.fit(X_train, y_train)
 y_pred = cv.predict(X_train)
 report = classification_report(y_train, y_pred)
 print(report)
-print(pd.DataFrame(cv.cv_results_))
-
+results = pd.DataFrame(cv.cv_results_))
+results.to_csv("random_forest_results.csv", encoding="utf-8", index=False)
 print("Best Parameters:",cv.best_params_)
 print("Best score:",cv.best_score_)

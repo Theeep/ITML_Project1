@@ -11,11 +11,9 @@ from sklearn.metrics import classification_report
 
 gnb = GaussianNB()
 # Reading csv
-data = pd.read_csv("../crimes_processed.csv")
+data = pd.read_csv("crimes_processed.csv")
 target = data["TYPE"]
 # Numberizing data
-sns.countplot(x=data.TYPE)
-plt.show()
 neighbour = LabelEncoder()
 data["NEIGHBOURHOOD"] = neighbour.fit(
     data["NEIGHBOURHOOD"]).transform(data["NEIGHBOURHOOD"])

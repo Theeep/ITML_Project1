@@ -11,11 +11,9 @@ from sklearn.metrics import classification_report
 
 gnb = GaussianNB()
 # Reading csv
-data = pd.read_csv("../crimes_processed.csv")
+data = pd.read_csv("crimes_processed.csv", nrows=50000)
 target = data["TYPE"]
 # Numberizing data
-sns.countplot(x=data.TYPE)
-plt.show()
 neighbour = LabelEncoder()
 data["NEIGHBOURHOOD"] = neighbour.fit(
     data["NEIGHBOURHOOD"]).transform(data["NEIGHBOURHOOD"])
@@ -61,5 +59,5 @@ print(test_report)
 print(grid_search.best_estimator_.get_params()["steps"])
 
 result_df = pd.DataFrame(grid_search.cv_results_)
-print(result_df)
+#print(result_df)
 result_df.to_csv("naive_results.csv", encoding="utf-8", index=False)

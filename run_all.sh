@@ -2,14 +2,14 @@
 
 echo "preprocessing starting"
 python3 data_preprocessing.py
-
-echo "preprocessing done"
 cp crimes_processed.csv kNN
 cp crimes_processed.csv naive_bayes
 cp crimes_processed.csv random_forest
+echo "Preprocessing done"
 
-echo "preprocessing kNN starting" 
+echo "Preprocessing kNN starting"
 python3 kNN/data_preprocessing_kNN.py
+cp crimes_processed_kNN.csv kNN
 echo "preprocessing kNN done"
 echo "Training kNN starting"
 python3 kNN/kNN_tuned_hyperparameters.py

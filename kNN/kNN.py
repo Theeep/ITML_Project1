@@ -9,7 +9,7 @@ from sklearn.neighbors import KNeighborsClassifier, DistanceMetric
 from sklearn.metrics import classification_report
 from sklearn.feature_selection import SelectKBest, f_classif
 
-crime_data = pd.read_csv("crimes_processed_kNN.csv", nrows=150000)
+crime_data = pd.read_csv("crimes_processed_kNN.csv", nrows=5000)
 
 unique_types = crime_data.TYPE.unique()
 #print(unique_types)
@@ -62,5 +62,5 @@ for i in [(RobustScaler(), "robust_scaler")]:
     print(grid_search.best_estimator_.get_params()["steps"])
 
     result_df = pd.DataFrame(grid_search.cv_results_)
-    print(result_df)
+    #print(result_df)
     result_df.to_csv(i[1]+"_results.csv", encoding='utf-8', index=False)
