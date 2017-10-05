@@ -18,8 +18,8 @@ echo "Cross validation kNN Done see results in kNN/robust_scaler_results.csv"
 
 echo "Cross validation random forest starting"
 python3 random_forest/random_forest.py
-echo "Cross validation random forest done see results in random_forest/RandomForestResults.csv"
+echo "Cross validation random forest done see results in RandomForestResults.csv"
 
 echo "Cross validation naive bayes starting"
 python3 naive_bayes/NaiveBayes.py
-echo "Cross validation naive bayes done see results in naive_bayes/naive_results.csv"
+echo "Cross validation naive bayes done see results in naive_results.csv"
