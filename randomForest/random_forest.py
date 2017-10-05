@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 
 
-df = pd.read_csv("crimes_processed.csv", nrows=1000)
+df = pd.read_csv("crimes_processed.csv", nrows=150000)
 
 
 X_columns = [i for i in df.columns if i != "TYPE"]
@@ -28,19 +28,19 @@ steps = [
 ]
 
 parameters = dict(
-    #random_forest__n_estimators=[10,20,50,100],
-    random_forest__n_estimators=[10,100],
-    #random_forest__max_depth=[20,50,100,200],
-    random_forest__max_depth=[20,50],
-    #random_forest__min_samples_split=[20,50,100,200,500,1000],
-    random_forest__min_samples_split=[200,500],
-    #random_forest__max_leaf_nodes=[100,300,600,1000,None],
-    random_forest__max_leaf_nodes=[600,1000,None]
+    random_forest__n_estimators=[10,20,50,100],
+    #random_forest__n_estimators=[10,100],
+    random_forest__max_depth=[20,50,100,200],
+    #random_forest__max_depth=[20,50],
+    random_forest__min_samples_split=[20,50,100,200,500,1000],
+    #random_forest__min_samples_split=[200,500],
+    random_forest__max_leaf_nodes=[100,300,600,1000,None],
+    #random_forest__max_leaf_nodes=[600,1000,None]
 )
 
 pipeline = sklearn.pipeline.Pipeline(steps)
 
-cv = GridSearchCV(pipeline, param_grid=parameters, n_jobs=8)
+cv = GridSearchCV(pipeline, param_grid=parameters, n_jobs=8, verbose=3)
 #cv.fit(X_train,y_train)
 cv.fit(X_train, y_train)
 y_pred = cv.predict(X_train)
