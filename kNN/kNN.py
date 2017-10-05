@@ -9,17 +9,17 @@ from sklearn.neighbors import KNeighborsClassifier, DistanceMetric
 from sklearn.metrics import classification_report
 from sklearn.feature_selection import SelectKBest, f_classif
 
-crime_data = pd.read_csv("crimes_processed_kNN.csv", nrows=2000)
+crime_data = pd.read_csv("crimes_processed_kNN.csv", nrows=150000)
 
 unique_types = crime_data.TYPE.unique()
-print(unique_types)
-sns.countplot(x=crime_data.TYPE, order=unique_types)
-plt.show()
+#print(unique_types)
+#sns.countplot(x=crime_data.TYPE, order=unique_types)
+#plt.show()
 
 crime_labels = crime_data["TYPE"]
 crime_data = crime_data.drop("TYPE", axis=1)
 
-knn = KNeighborsClassifier(n_jobs=4)
+knn = KNeighborsClassifier(n_jobs=8)
 feature_selector = SelectKBest(f_classif)
 
 steps = [
@@ -47,12 +47,12 @@ for i in [(RobustScaler(), "robust_scaler")]:
                                                         test_size=0.20,
                                                         random_state=seed)
 
-    sns.countplot(x=y_train, order=unique_types)
-    plt.show()
-    break
+    #sns.countplot(x=y_train, order=unique_types)
+    #plt.show()
+    #break
 
     knn_pipeline = sklearn.pipeline.Pipeline(steps)
-    grid_search = GridSearchCV(knn_pipeline, param_grid=parameters, n_jobs=4)
+    grid_search = GridSearchCV(knn_pipeline, param_grid=parameters, n_jobs=8, verbose=3)
 
     grid_search.fit(X_train, y_train)
     y_prediction = grid_search.predict(X_train)
