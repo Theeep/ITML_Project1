@@ -22,18 +22,18 @@ crime_data_scaled = scaler.fit_transform(crime_data)
 X_train, X_test, y_train, y_test = train_test_split(crime_data_scaled, crime_labels, 
                                                     test_size=0.20)
 
-feature_selector = SelectKBest(f_classif, k=20)
+feature_selector = SelectKBest(f_classif, k=10)
 X_train = feature_selector.fit_transform(X_train, y_train)
 X_test = feature_selector.transform(X_test)
 
-knn = KNeighborsClassifier(n_jobs=4, algorithm='ball_tree', leaf_size=20, metric='minkowski', n_neighbors=15, weights='uniform')
+knn = KNeighborsClassifier(n_jobs=4, algorithm='kd_tree', leaf_size=20, metric='minkowski', n_neighbors=15, weights='distance')
 knn.fit(X_train,y_train)
 
-print("Training")
-y_prediction = knn.predict(X_train)
-report = classification_report(y_train, y_prediction)
-print(report)
-print(knn.score(X_train, y_train))
+# print("Training")
+# y_prediction = knn.predict(X_train)
+# report = classification_report(y_train, y_prediction)
+# print(report)
+# print(knn.score(X_train, y_train))
 
 print("")
 
