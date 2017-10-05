@@ -6,8 +6,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 
 df = pd.read_csv("crimes_processed.csv")
-for t in df.TYPE.unique():
-    print(t,len(df[df.TYPE == t]))
 
 X_columns = [i for i in df.columns if i != "TYPE"]
 y_columns = ["TYPE"]
@@ -25,9 +23,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 clf = RandomForestClassifier(max_depth=50, min_samples_split=20, n_estimators=100, n_jobs=8)
 
 clf.fit(X_train, y_train)
-y_pred = clf.predict(X_train)
-report = classification_report(y_train, y_pred)
+y_pred = clf.predict(X_test)
+y_test = labelEnc.inverse_transform(y_test)
+y_pred = labelEnc.inverse_transform(y_pred)
+report = classification_report(y_test, y_pred)
 print(report)
-print("Train score: {}".format(clf.score(X_train, y_train)))
-print("Test score: {}".format(clf.score(X_test, y_test)))
 
