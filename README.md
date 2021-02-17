@@ -1,6 +1,6 @@
 # ITML_Project1
 
-This is a project created for the Machine Learning course at Reykjavik University. The project was a supervised learning project.
+This is a project created for the Machine Learning course at Reykjavik University. The project was a supervised learning project on a crime statistics dataset.
 
 ## How to run
 
